@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package vectordb.v1;
 
-option go_package = "github.com/faportillo/vectordb-server/gen/vectordb/v1;vectordbv1";
+option go_package = "github.com/faportillo/vectordb-server/gen/proto/vectordb/v1;vectordbv1";
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/empty.proto";

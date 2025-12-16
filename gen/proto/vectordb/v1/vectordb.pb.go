@@ -698,7 +698,7 @@ const file_proto_vectordb_v1_vectordb_proto_rawDesc = "" +
 	"\rGetCollection\x12!.vectordb.v1.GetCollectionRequest\x1a\x1b.vectordb.v1.CollectionInfo\x12S\n" +
 	"\fUpsertPoints\x12 .vectordb.v1.UpsertPointsRequest\x1a!.vectordb.v1.UpsertPointsResponse\x12H\n" +
 	"\fDeletePoints\x12 .vectordb.v1.DeletePointsRequest\x1a\x16.google.protobuf.Empty\x12A\n" +
-	"\x06Search\x12\x1a.vectordb.v1.SearchRequest\x1a\x1b.vectordb.v1.SearchResponseBBZ@github.com/faportillo/vectordb-server/gen/vectordb/v1;vectordbv1b\x06proto3"
+	"\x06Search\x12\x1a.vectordb.v1.SearchRequest\x1a\x1b.vectordb.v1.SearchResponseBHZFgithub.com/faportillo/vectordb-server/gen/proto/vectordb/v1;vectordbv1b\x06proto3"
 
 var (
 	file_proto_vectordb_v1_vectordb_proto_rawDescOnce sync.Once
