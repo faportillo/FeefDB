@@ -124,16 +124,18 @@ Delete a point:
 
 ## Repository Layout
 
+```sh
 vectordb-server/
-├── proto/ # Protobuf source-of-truth (API contract)
-├── gen/ # Generated Go code (from buf generate)
-├── internal/
-│ ├── core/ # Vector DB engine (indexes, collections, metadata)
-│ ├── service/ # gRPC service implementation (thin transport layer)
-│ └── e2e/ # End-to-end gRPC tests (real server + client)
-├── cmd/
-│ └── server/ # Server entrypoint (main.go)
-└── ... # Other files and directories
+  proto/      # Protobuf source-of-truth (API contract)
+  gen/        # Generated Go code (from buf generate)
+  internal/
+    core/      # Vector DB engine (indexes, collections, metadata)
+    service/   # gRPC service implementation (thin transport layer)
+    e2e/       # End-to-end gRPC tests (real server + client)
+  cmd/
+    server/    # Server entrypoint (main.go)
+  ...          # Other files and directories
+```
 
 Design notes:
 
