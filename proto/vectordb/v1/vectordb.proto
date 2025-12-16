@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package vectordb.v1;
+
+option go_package = "github.com/faportillo/vectordb-server/gen/vectordb/v1;vectordbv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+
+message Vector { repeated float values = 1; }
+
+message Point {
+  string id = 1;
+  Vector vector = 2;
+  google.protobuf.Struct metadata = 3;
+}
+
+message UpsertPointsRequest {
+  string collection = 1;
+  repeated Point points = 2;
+}
+
+message UpsertPointsResponse { uint64 upserted = 1; }
+
+message DeletePointsRequest {
+  string collection = 1;
+  repeated string ids = 2;
+}
+
+message SearchRequest {
+  string collection = 1;
+  Vector query = 2;
+  uint32 top_k = 3;
+  google.protobuf.Struct filter = 4;
+  bool include_vectors = 5;
+  bool include_metadata = 6;
+}
+
+message ScoredPoint {
+  string id = 1;
+  float score = 2;
+  Vector vector = 3;
+  google.protobuf.Struct metadata = 4;
+}
+
+message SearchResponse { repeated ScoredPoint results = 1; }
+
+message CreateCollectionRequest {
+  string name = 1;
+  uint32 dimension = 2;
+  string distance = 3; // "cosine" | "dot" | "l2"
+}
+
+message CollectionInfo {
+  string name = 1;
+  uint32 dimension = 2;
+  string distance = 3;
+  uint64 count = 4;
+}
+
+message GetCollectionRequest { string name = 1; }
+
+service VectorDB {
+  rpc CreateCollection(CreateCollectionRequest) returns (CollectionInfo);
+  rpc GetCollection(GetCollectionRequest) returns (CollectionInfo);
+  rpc UpsertPoints(UpsertPointsRequest) returns (UpsertPointsResponse);
+  rpc DeletePoints(DeletePointsRequest) returns (google.protobuf.Empty);
+  rpc Search(SearchRequest) returns (SearchResponse);
+}
+
