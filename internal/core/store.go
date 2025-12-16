@@ -5,6 +5,11 @@ import (
 	"sync"
 )
 
+var (
+	ErrCollectionNotFound = fmt.Errorf("collection not found")
+	ErrCollectionExists   = fmt.Errorf("collection already exists")
+)
+
 type Store struct {
 	mu sync.RWMutex
 	cols map[string]*Collection
@@ -21,7 +26,7 @@ func (s *Store) CreateCollection(name string, dim int, metric DistanceMetric) (*
 	defer s.mu.Unlock()
 
 	if _, exists := s.cols[name]; exists {
-		return nil, fmt.Errorf("collection already exists: %q", name)
+		return nil, fmt.Errorf("%w: %q", ErrCollectionExists, name)
 	}
 
 	c, err := NewCollection(name, dim, metric)
@@ -39,7 +44,7 @@ func (s *Store) GetCollection(name string) (*Collection, error) {
 
 	c := s.cols[name]
 	if c == nil {
-		return nil, fmt.Errorf("collection not found: %q", name)
+		return nil, fmt.Errorf("%w: %q", ErrCollectionNotFound, name)
 	}
 	return c, nil
 }

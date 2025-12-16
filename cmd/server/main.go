@@ -14,6 +14,7 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	vectordbv1 "github.com/faportillo/vectordb-server/gen/proto/vectordb/v1"
+	"github.com/faportillo/vectordb-server/internal/core"
 	"github.com/faportillo/vectordb-server/internal/service"
 )
 
@@ -45,8 +46,10 @@ func main() {
 	s := grpc.NewServer()
 
 	// Register services
-	vectordbv1.RegisterVectorDBServer(s, service.NewServer())
-
+	store := core.NewStore()
+	svc := service.NewServer(store)
+	vectordbv1.RegisterVectorDBServer(s, svc)
+	
 	// Health service
 	healthpb.RegisterHealthServer(s, &healthServer{})
 
