@@ -59,47 +59,68 @@ make run
 ## gRPC API Exploration (grpcurl)
 
 List all exposed services (reflection enabled):
-grpcurl -plaintext localhost:50051 list
+
+```sh
+    grpcurl -plaintext localhost:50051 list
+```
 
 Health check (overall):
-grpcurl -plaintext localhost:50051 grpc.health.v1.Health/Check
+
+```sh
+    grpcurl -plaintext localhost:50051 grpc.health.v1.Health/Check
+```
 
 Health check (service-specific):
-grpcurl -plaintext -d '{"service":"vectordb.v1.VectorDB"}' localhost:50051 grpc.health.v1.Health/Check
+
+```sh
+    grpcurl -plaintext -d '{"service":"vectordb.v1.VectorDB"}' localhost:50051 grpc.health.v1.Health/Check
+```
 
 ## Example Workflow (End-to-End)
 
 Create a collection:
-grpcurl -plaintext -d '{
-"name":"users",
-"dimension":3,
-"distance":"dot"
-}' localhost:50051 vectordb.v1.VectorDB/CreateCollection
+
+```sh
+    grpcurl -plaintext -d '{
+        "name":"users",
+        "dimension":3,
+        "distance":"dot"
+    }' localhost:50051 vectordb.v1.VectorDB/CreateCollection
+```
 
 Upsert vectors:
-grpcurl -plaintext -d '{
-"collection":"users",
-"points":[
-{"id":"a","vector":{"values":[1,0,0]}},
-{"id":"b","vector":{"values":[0,1,0]}},
-{"id":"c","vector":{"values":[2,0,0]}}
-]
-}' localhost:50051 vectordb.v1.VectorDB/UpsertPoints
+
+```sh
+    grpcurl -plaintext -d '{
+        "collection":"users",
+        "points":[
+            {"id":"a","vector":{"values":[1,0,0]}},
+            {"id":"b","vector":{"values":[0,1,0]}},
+            {"id":"c","vector":{"values":[2,0,0]}}
+        ]
+    }' localhost:50051 vectordb.v1.VectorDB/UpsertPoints
+```
 
 Search (expect c, then a):
-grpcurl -plaintext -d '{
-"collection":"users",
-"query":{"values":[1,0,0]},
-"top_k":2,
-"include_vectors":true,
-"include_metadata":false
-}' localhost:50051 vectordb.v1.VectorDB/Search
+
+```sh
+    grpcurl -plaintext -d '{
+        "collection":"users",
+        "query":{"values":[1,0,0]},
+        "top_k":2,
+        "include_vectors":true,
+        "include_metadata":false
+    }' localhost:50051 vectordb.v1.VectorDB/Search
+```
 
 Delete a point:
-grpcurl -plaintext -d '{
-"collection":"users",
-"ids":["c"]
-}' localhost:50051 vectordb.v1.VectorDB/DeletePoints
+
+```sh
+    grpcurl -plaintext -d '{
+        "collection":"users",
+        "ids":["c"]
+    }' localhost:50051 vectordb.v1.VectorDB/DeletePoints
+```
 
 ## Repository Layout
 
