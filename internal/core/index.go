@@ -6,13 +6,11 @@ type Index interface {
 	Dimension() int
 	Metric() DistanceMetric
 
-	Add(id string, vector []float32, metadata map[string]any) error
-	Search(query []float32, topK int, filter map[string]any) ([]ScoredPoint, error)
+	Add(id string, vector []float32) error
+	Search(query []float32, topK int) ([]SearchResult, error)
 	Delete(id string) error
 	// Size returns the number of stored vectors.
 	Size() int
-	// Close releases any resources used by the index.
-	Close() error
 }
 
 // SearchResult is a scored neighbor returned by an Index.
@@ -30,8 +28,8 @@ var (
 
 // CheckDim is a small helper used by implementations to validate vector length.
 // Returning a shared error makes it easy for the service layer to map it to gRPC codes.
-func CheckDim(a, b []float32) error {
-	if len(a) != len(b){
+func CheckDim(expected int, vector []float32) error {
+	if expected != len(vector){
 		return ErrDimensionMismatch
 	}
 	return nil
